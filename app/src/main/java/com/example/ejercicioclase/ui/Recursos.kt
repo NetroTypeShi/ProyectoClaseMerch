@@ -1,8 +1,6 @@
 package com.example.ejercicioclase.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,7 +12,10 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -24,12 +25,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.myapplication.R
 
 @Composable
@@ -60,7 +61,6 @@ fun TopBar(){
 
 @Composable
 fun SearchField(label : String, modifier: Modifier = Modifier){
-    //Hay que hacer una variable busqueda que sera byremember mutable state
     var search by remember { mutableStateOf("") }
 
     TextField(
@@ -71,7 +71,6 @@ fun SearchField(label : String, modifier: Modifier = Modifier){
     )
 }
 
-//Se usa para poner los títulos a las secciones donde lo queramos utilizar
 @Composable
 fun SectionTitle(title : String){
     Text(
@@ -83,55 +82,54 @@ fun SectionTitle(title : String){
 }
 
 @Composable
-fun BottomNav(navController : NavController) {
+fun BottomNav(navController : NavController, modifier: Modifier) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
-    Row(
-        modifier = Modifier
-            .padding(vertical = 12.dp)
-            .fillMaxWidth()
-            .height(70.dp)
-            .background(Color.White),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceAround,
-
-        ) {
-        Icon(
-            imageVector = Icons.Default.Home,
-            tint = Color.Gray,
-            contentDescription = "Home",
-            modifier = Modifier
-                .clickable {
-                    navController.navigate("Home")
+    NavigationBar(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        NavigationBarItem(
+            icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
+            label = { Text("Home") },
+            selected = currentRoute == "Home",
+            onClick = {
+                navController.navigate("Home") {
+                    popUpTo("Home") { inclusive = true }
                 }
+            }
         )
-        Icon(
-            imageVector = Icons.Default.Favorite,
-            tint = Color.Gray,
-            contentDescription = "ProductHistory",
-            modifier = Modifier
-                .clickable {
-                    navController.navigate("ProductHistory")
-                }
+        NavigationBarItem(
+            icon = { Icon(Icons.Default.Favorite, contentDescription = "Historial") },
+            label = { Text("Historial") },
+            selected = currentRoute == "ProductHistory",
+            onClick = {
+                navController.navigate("ProductHistory")
+            }
         )
-        Icon(
-            imageVector = Icons.Default.ShoppingCart,
-            tint = Color.Gray,
-            contentDescription = "Cart",
-            modifier = Modifier
-                .clickable {
-                    navController.navigate("Cart")
-                }
+        NavigationBarItem(
+            icon = { Icon(Icons.Default.ShoppingCart, contentDescription = "Carrito") },
+            label = { Text("Carrito") },
+            selected = currentRoute == "Cart",
+            onClick = {
+                navController.navigate("Cart")
+            }
         )
-        Icon(
-            imageVector = Icons.Default.Person,
-            tint = Color.Gray,
-            contentDescription = "Profile",
-            modifier = Modifier
-                .clickable {
-                    navController.navigate("Profile")
-                }
+        NavigationBarItem(
+            icon = { Icon(Icons.Default.Star, contentDescription = "La Liga") },
+            label = { Text("La Liga") },
+            selected = currentRoute == "LaLiga",
+            onClick = {
+                navController.navigate("LaLiga")
+            }
         )
-
+        NavigationBarItem(
+            icon = { Icon(Icons.Default.Person, contentDescription = "Perfil") },
+            label = { Text("Perfil") },
+            selected = currentRoute == "Profile",
+            onClick = {
+                navController.navigate("Profile")
+            }
+        )
     }
 }
-
