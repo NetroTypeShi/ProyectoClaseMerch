@@ -103,7 +103,6 @@ fun LoginScreen(navController: NavController) {
             label = { Text("Contraseña") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
-            visualTransformation = PasswordVisualTransformation(),
         )
 
         Spacer(modifier = Modifier.height(32.dp))
