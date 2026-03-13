@@ -10,9 +10,8 @@ object CarritoVM {
     // ID del producto -> Cantidad
     val productsCart = TreeMap<Int, Int>()
 
-    fun addProduct(id: Int) {
-        val cantidadActual = productsCart[id] ?: 0
-        productsCart[id] = cantidadActual + 1
+    fun addCart(productID: Int, quanriry : Int) {
+        productsCart.put((productID, productsCart))
     }
 
     fun removeProduct(id: Int) {
@@ -36,4 +35,6 @@ object CarritoVM {
         }
         return total
     }
+
+    fun addProduct(id: Int) {}
 }

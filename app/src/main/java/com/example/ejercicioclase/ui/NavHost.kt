@@ -1,6 +1,5 @@
 package com.example.ejercicioclase.ui
 
-import android.R.attr.identifier
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -16,7 +15,7 @@ fun Navigation(){
     val navController = rememberNavController()
 
     Scaffold(
-        bottomBar = { BottomNav(navController) }
+        //bottomBar = { BottomNav(navController) }
     ) { innerPadding ->
         NavHost(
             navController = navController,
@@ -30,7 +29,7 @@ fun Navigation(){
                 ProductHistoryScreen()
             }
             composable("Cart"){
-                ProductsScreen(navController)
+                CartScreen(navController)
             }
             composable("Profile"){
                 ProfileScreen()
@@ -46,7 +45,7 @@ fun Navigation(){
                 arguments = listOf(navArgument("productId") { type = NavType.IntType })
             ) { backStackEntry ->
                 val productId = backStackEntry.arguments?.getInt("productId")
-                ProductDetailScreen(identifier ?: 0, productId: Int?, )
+                ProductDetailScreen(navController, productId)
             }
         }
     }
